@@ -39,7 +39,7 @@ sns.barplot(
     y='cnt_hour', 
     hue='year_label', 
     palette='Set2', 
-    ax=ax1]
+    ax=ax1,]
 )
 ax1.set_title("Total Penyewaan Sepeda per Musim (2011 vs 2012)")
 ax1.set_xlabel("Musim")
