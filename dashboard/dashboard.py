@@ -68,13 +68,13 @@ st.divider()
 # ---------------------------------------------------------------------
 st.header("2. Puncak Permintaan Penyewaan Sepeda per Jam")
 
-# Kolom jam bernama 'hr_hour', dan total penyewaan ada di 'cnt_hour'
-hourly_demand = df.groupby('hr_hour')['cnt_hour'].mean().reset_index()
+# Kolom jam bernama 'hr', dan total penyewaan ada di 'cnt_hour'
+hourly_demand = df.groupby('hr')['cnt_hour'].mean().reset_index()
 
 fig2, ax2 = plt.subplots(figsize=(12, 6))
 sns.lineplot(
     data=hourly_demand, 
-    x='hr_hour', 
+    x='hr', 
     y='cnt_hour', 
     marker='o', 
     color='b', 
@@ -89,9 +89,9 @@ ax2.grid(True, linestyle='--', alpha=0.6)
 
 # Menandai titik puncak
 peak_hour = hourly_demand.loc[hourly_demand['cnt_hour'].idxmax()]
-ax2.axvline(x=peak_hour['hr_hour'], color='r', linestyle='--', label=f'Puncak: Jam {int(peak_hour["hr_hour"])}')
+ax2.axvline(x=peak_hour['hr'], color='r', linestyle='--', label=f'Puncak: Jam {int(peak_hour["hr"])}')
 ax2.legend()
 
 st.pyplot(fig2)
 
-st.info(f"**Kesimpulan Visualisasi 2:** Demand penyewaan sepeda mencapai titik tertingginya pada **jam {int(peak_hour['hr_hour'])}:00** (sore hari). Ini menunjukkan bahwa mayoritas orang menyewa sepeda setelah selesai beraktivitas.")
+st.info(f"**Kesimpulan Visualisasi 2:** Demand penyewaan sepeda mencapai titik tertingginya pada **jam {int(peak_hour['hr'])}:00** (sore hari). Ini menunjukkan bahwa mayoritas orang menyewa sepeda setelah selesai beraktivitas.")
