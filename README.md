@@ -1,1 +1,4 @@
-# analisa-data
+## Run Streamlit
+'''
+streamlit run dashboard.py
+'''
