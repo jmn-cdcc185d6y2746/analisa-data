@@ -10,8 +10,8 @@ st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 @st.cache_data
 def load_data():
     # Mengambil langsung dari raw file GitHub Anda untuk menghindari masalah lokasi folder (path)
-    url_day = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/day.csv"
-    url_hour = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/hour.csv"
+    url_day = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/data/day.csv"
+    url_hour = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/data/hour.csv"
     
     # Memasukkan fungsi read_csv ke DALAM variabel
     day_df = pd.read_csv(url_day)
