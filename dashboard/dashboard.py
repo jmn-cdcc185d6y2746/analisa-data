@@ -6,20 +6,19 @@ import seaborn as sns
 # Konfigurasi Halaman
 st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
-# 1. Memuat 1 Dataset (Merged CSV)
 @st.cache_data
 def load_data():
-    # Streamlit akan mencoba mencari file merged_data.csv di beberapa lokasi umum di repo Anda
+    # Streamlit akan mencoba mencari file main_data.csv di beberapa lokasi umum di repo Anda
     try:
         # Kemungkinan 1: Jika file ada di folder utama (root) repo
-        df = pd.read_csv("merged_data.csv")
+        df = pd.read_csv("main_data.csv")
     except FileNotFoundError:
         try:
             # Kemungkinan 2: Jika file ada di dalam folder 'dashboard'
-            df = pd.read_csv("dashboard/merged_data.csv")
+            df = pd.read_csv("dashboard/main+data.csv")
         except FileNotFoundError:
             # Kemungkinan 3: Mengambil langsung dari URL GitHub sebagai jalan terakhir
-            url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/merged_data.csv"
+            url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/main_data.csv"
             df = pd.read_csv(url)
     
     # PERBAIKAN GRAFIK 1: Memastikan year_label dibaca sebagai teks (String)
