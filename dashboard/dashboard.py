@@ -7,7 +7,7 @@ st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
 @st.cache_data
 def load_data():
-    pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
+    df = pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
     
     df['year_label'] = df['year_label'].astype(str)
     return df
