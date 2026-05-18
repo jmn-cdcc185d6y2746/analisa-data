@@ -10,7 +10,7 @@ def load_data():
     pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
     
     df['year_label'] = df['year_label'].astype(str)
-    return 
+    return df
 
 df = load_data()
 
