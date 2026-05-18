@@ -15,7 +15,7 @@ def load_data():
     except FileNotFoundError:
         try:
             # Kemungkinan 2: Jika file ada di dalam folder 'dashboard'
-            df = pd.read_csv("dashboard/main+data.csv")
+            df = pd.read_csv("dashboard/main_data.csv")
         except FileNotFoundError:
             # Kemungkinan 3: Mengambil langsung dari URL GitHub sebagai jalan terakhir
             url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/main_data.csv"
