@@ -16,7 +16,7 @@ st.markdown("Dashboard ini menganalisis data penyewaan sepeda berdasarkan musim 
 
 st.divider()
 
-st.header(Pertumbuhan Jumlah Penyewa Sepeda)
+st.header("Pertumbuhan Jumlah Penyewa Sepeda")
 
 season_yr_df = df.groupby(['year_label', 'season_label'])['cnt_hour'].sum().reset_index()
 
@@ -40,7 +40,7 @@ st.info("**Kesimpulan Visualisasi 1:** Terlihat dengan jelas bahwa terdapat pert
 
 st.divider()
 
-st.header(Puncak Permintaan Penyewaan Sepeda per Jam)
+st.header("Puncak Permintaan Penyewaan Sepeda per Jam")
 
 hourly_demand = df.groupby('hr_hour')['cnt_hour'].mean().reset_index()
 
