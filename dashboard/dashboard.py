@@ -6,36 +6,32 @@ import seaborn as sns
 # Konfigurasi Halaman
 st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
-# 1. Memuat Dataset dan Merge secara Langsung
+# 1. Memuat 1 Dataset (Merged CSV)
 @st.cache_data
 def load_data():
-    # Mengambil langsung dari raw file GitHub Anda untuk menghindari masalah lokasi folder (path)
-    url_day = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/data/day.csv"
-    url_hour = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/data/hour.csv"
+    # Streamlit akan mencoba mencari file main_data.csv di beberapa lokasi umum di repo Anda
+    try:
+        # Kemungkinan 1: Jika file ada di folder utama (root) repo
+        df = pd.read_csv("main_data.csv")
+    except FileNotFoundError:
+        try:
+            # Kemungkinan 2: Jika file ada di dalam folder 'dashboard'
+            df = pd.read_csv("dashboard/main_data.csv")
+        except FileNotFoundError:
+            # Kemungkinan 3: Mengambil langsung dari URL GitHub sebagai jalan terakhir
+            url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv"
+            df = pd.read_csv(url)
     
-    # Memasukkan fungsi read_csv ke DALAM variabel
-    day_df = pd.read_csv(url_day)
-    hour_df = pd.read_csv(url_hour)
-    
-    # Menggabungkan dataset
-    merged_df = pd.merge(hour_df, day_df, on='dteday', suffixes=('_hour', '_day'))
-    
-    # Pemetaan untuk label
-    season_mapping = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
-    year_mapping = {0: '2011', 1: '2012'}
-    
-    merged_df['season_label'] = merged_df['season_hour'].map(season_mapping)
-    
-    # Di-cast ke string agar visualisasi tidak menganggap ini angka numerik biasa
-    merged_df['year_label'] = merged_df['yr_hour'].map(year_mapping).astype(str)
-    
-    return merged_df
+    # PERBAIKAN GRAFIK 1: Memastikan year_label dibaca sebagai teks (String)
+    if 'year_label' in df.columns:
+        df['year_label'] = df['year_label'].astype(str)
+        
+    return df
 
-# Memanggil fungsi
 df = load_data()
 
 st.title("🚲 Dashboard Analisis Penyewaan Sepeda")
-st.markdown("Dashboard ini menganalisis data penyewaan sepeda berdasarkan musim dan jam.")
+st.markdown("Dashboard ini menganalisis data penyewaan sepeda berdasarkan musim dan jam menggunakan 1 dataset yang sudah terintegrasi.")
 
 st.divider()
 
@@ -44,7 +40,7 @@ st.divider()
 # ---------------------------------------------------------------------
 st.header("1. Pertumbuhan Jumlah Penyewa Sepeda (2011 vs 2012) Berdasarkan Musim")
 
-# Agregasi data 
+# Agregasi data (menggunakan cnt_hour)
 season_yr_df = df.groupby(['year_label', 'season_label'])['cnt_hour'].sum().reset_index()
 
 fig1, ax1 = plt.subplots(figsize=(10, 6))
@@ -72,7 +68,7 @@ st.divider()
 # ---------------------------------------------------------------------
 st.header("2. Puncak Permintaan Penyewaan Sepeda per Jam")
 
-# Kolom jam bernama 'hr', dan total penyewaan ada di 'cnt_hour' hasil merge.
+# Kolom jam bernama 'hr', dan total penyewaan ada di 'cnt_hour'
 hourly_demand = df.groupby('hr')['cnt_hour'].mean().reset_index()
 
 fig2, ax2 = plt.subplots(figsize=(12, 6))
@@ -85,17 +81,4 @@ sns.lineplot(
     linewidth=2.5,
     ax=ax2
 )
-ax2.set_title("Rata-rata Penyewaan Sepeda Berdasarkan Jam (0-23)")
-ax2.set_xlabel("Jam (00:00 - 23:00)")
-ax2.set_ylabel("Rata-rata Penyewaan (Demand)")
-ax2.set_xticks(range(0, 24))
-ax2.grid(True, linestyle='--', alpha=0.6)
-
-# Menandai titik puncak
-peak_hour = hourly_demand.loc[hourly_demand['cnt_hour'].idxmax()]
-ax2.axvline(x=peak_hour['hr'], color='r', linestyle='--', label=f'Puncak: Jam {int(peak_hour["hr"])}')
-ax2.legend()
-
-st.pyplot(fig2)
-
-st.info(f"**Kesimpulan Visualisasi 2:** Demand penyewaan sepeda mencapai titik tertingginya pada **jam {int(peak_hour['hr'])}:00** (sore hari). Ini menunjukkan bahwa mayoritas orang menyewa sepeda setelah selesai beraktivitas.")
+ax2
