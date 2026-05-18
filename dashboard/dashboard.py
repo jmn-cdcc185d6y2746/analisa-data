@@ -7,7 +7,7 @@ st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("merged_data.csv")
+    return pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
 
 df = load_data()
 
