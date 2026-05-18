@@ -7,7 +7,10 @@ st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
+    pd.read_csv("https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv")
+    
+    df['year_label'] = df['year_label'].astype(str)
+    return 
 
 df = load_data()
 
@@ -42,12 +45,12 @@ st.divider()
 
 st.header("Puncak Permintaan Penyewaan Sepeda per Jam")
 
-hourly_demand = df.groupby('hr_hour')['cnt_hour'].mean().reset_index()
+hourly_demand = df.groupby('hr')['cnt_hour'].mean().reset_index()
 
 fig2, ax2 = plt.subplots(figsize=(12, 6))
 sns.lineplot(
     data=hourly_demand, 
-    x='hr_hour', 
+    x='hr', 
     y='cnt_hour', 
     marker='o', 
     color='b', 
@@ -61,9 +64,9 @@ ax2.set_xticks(range(0, 24))
 ax2.grid(True, linestyle='--', alpha=0.6)
 
 peak_hour = hourly_demand.loc[hourly_demand['cnt_hour'].idxmax()]
-ax2.axvline(x=peak_hour['hr_hour'], color='r', linestyle='--', label=f'Puncak: Jam {int(peak_hour["hr_hour"])}')
+ax2.axvline(x=peak_hour['hr'], color='r', linestyle='--', label=f'Puncak: Jam {int(peak_hour["hr"])}')
 ax2.legend()
 
 st.pyplot(fig2)
 
-st.info(f"**Kesimpulan Visualisasi 2:** Demand penyewaan sepeda mencapai titik puncaknya pada **jam {int(peak_hour['hr_hour'])}:00** (sore/malam hari), yang kemungkinan besar bertepatan dengan jam pulang kerja. Terdapat juga lonjakan kecil pada pagi hari sekitar jam 08:00 (jam berangkat kerja).")
+st.info(f"**Kesimpulan Visualisasi 2:** Demand penyewaan sepeda mencapai titik puncaknya pada **jam {int(peak_hour['hr'])}:00** (sore/malam hari), yang kemungkinan besar bertepatan dengan jam pulang kerja. Terdapat juga lonjakan kecil pada pagi hari sekitar jam 08:00 (jam berangkat kerja).")
