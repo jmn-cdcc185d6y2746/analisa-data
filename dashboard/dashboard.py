@@ -13,7 +13,7 @@ def load_data():
     try:
         df = pd.read_csv("main_data.csv")
     except FileNotFoundError:
-        url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/main_data.csv"
+        url = "https://raw.githubusercontent.com/jmn-cdcc185d6y2746/analisa-data/main/dashboard/main_data.csv"
         df = pd.read_csv(url)
     
     # Konversi dteday ke datetime agar bisa difilter kalender
